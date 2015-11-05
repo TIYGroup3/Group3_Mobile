@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		140AAAC41BEBD990009B3FE0 /* RailsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140AAAC31BEBD990009B3FE0 /* RailsRequest.swift */; };
 		144617801BEA93AD00132399 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1446177F1BEA93AD00132399 /* AppDelegate.swift */; };
 		144617851BEA93AD00132399 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 144617831BEA93AD00132399 /* Main.storyboard */; };
 		144617871BEA93AD00132399 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 144617861BEA93AD00132399 /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		140AAAC31BEBD990009B3FE0 /* RailsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RailsRequest.swift; sourceTree = "<group>"; };
 		1446177C1BEA93AD00132399 /* FlashBang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashBang.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1446177F1BEA93AD00132399 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		144617841BEA93AD00132399 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				144617951BEA99F000132399 /* DeckViewController.swift */,
 				144617971BEA9B0300132399 /* GamePlayViewController.swift */,
 				144617911BEA940900132399 /* LoginViewController.swift */,
+				140AAAC31BEBD990009B3FE0 /* RailsRequest.swift */,
 				144617861BEA93AD00132399 /* Assets.xcassets */,
 				144617881BEA93AD00132399 /* LaunchScreen.storyboard */,
 				1446178B1BEA93AD00132399 /* Info.plist */,
@@ -144,6 +147,7 @@
 				144617921BEA940900132399 /* LoginViewController.swift in Sources */,
 				144617801BEA93AD00132399 /* AppDelegate.swift in Sources */,
 				144617981BEA9B0300132399 /* GamePlayViewController.swift in Sources */,
+				140AAAC41BEBD990009B3FE0 /* RailsRequest.swift in Sources */,
 				144617961BEA99F000132399 /* DeckViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -292,6 +296,7 @@
 				144617901BEA93AD00132399 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

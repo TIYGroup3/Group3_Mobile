@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="NFF-Cg-3Xi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LcA-ae-0D1">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -153,14 +153,14 @@
                                     <action selector="loginButton:" destination="9vT-AJ-zgI" eventType="touchUpInside" id="lJ9-Ck-HrX"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Password" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6gf-mm-De5">
-                                <rect key="frame" x="20" y="465" width="560" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Username" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lOr-kj-0kz">
+                                <rect key="frame" x="20" y="178" width="560" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Username" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lOr-kj-0kz">
-                                <rect key="frame" x="20" y="405" width="560" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Password" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6gf-mm-De5">
+                                <rect key="frame" x="20" y="259" width="560" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -173,10 +173,10 @@
                             <constraint firstItem="WLV-Yj-xWd" firstAttribute="leading" secondItem="REZ-XX-sfd" secondAttribute="leadingMargin" id="2qE-L3-rC7"/>
                             <constraint firstItem="lOr-kj-0kz" firstAttribute="leading" secondItem="REZ-XX-sfd" secondAttribute="leadingMargin" id="H7S-2A-1rH"/>
                             <constraint firstItem="6gf-mm-De5" firstAttribute="trailing" secondItem="REZ-XX-sfd" secondAttribute="trailingMargin" id="Jaz-W4-qXc"/>
-                            <constraint firstItem="6gf-mm-De5" firstAttribute="top" secondItem="lOr-kj-0kz" secondAttribute="bottom" constant="30" id="WwI-Rm-MGH"/>
+                            <constraint firstItem="6gf-mm-De5" firstAttribute="top" secondItem="lOr-kj-0kz" secondAttribute="bottom" constant="51" id="WwI-Rm-MGH"/>
                             <constraint firstItem="lOr-kj-0kz" firstAttribute="trailing" secondItem="REZ-XX-sfd" secondAttribute="trailingMargin" id="Xbo-ft-CHw"/>
                             <constraint firstItem="WLV-Yj-xWd" firstAttribute="trailing" secondItem="REZ-XX-sfd" secondAttribute="trailingMargin" id="c5N-b7-R1L"/>
-                            <constraint firstItem="WLV-Yj-xWd" firstAttribute="top" secondItem="6gf-mm-De5" secondAttribute="bottom" constant="30" id="gUC-FR-0B8"/>
+                            <constraint firstItem="WLV-Yj-xWd" firstAttribute="top" secondItem="6gf-mm-De5" secondAttribute="bottom" constant="236" id="gUC-FR-0B8"/>
                             <constraint firstItem="OKA-Xn-GhW" firstAttribute="top" secondItem="WLV-Yj-xWd" secondAttribute="bottom" constant="20" id="zxw-oP-cuX"/>
                         </constraints>
                     </view>

@@ -23,18 +23,27 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginButton(sender: AnyObject) {
         
-        if let username = usernameField.text {
-            
-            // need to use passwordField
-            
-            // use username & password to retrieve data from backend
-            
-        }
+        let usernameRequest = RailsRequest.session()
+                
+        guard let username = usernameField.text where !username.isEmpty else {return}
+        guard let password = passwordField.text where !password.isEmpty else {return}
+        
+        usernameRequest.loginWithUsername(username, andPassword: password)
+        
+        // token is optional!!!
         
     }
     
     @IBAction func registerButton(sender: AnyObject) {
         
+        let registerRequest = RailsRequest.session()
+        
+        guard let username = usernameField.text where !username.isEmpty else {return}
+        guard let password = passwordField.text where !password.isEmpty else {return}
+        guard let fullName = fullNameField.text where !fullName.isEmpty else {return}
+        guard let email = emailField.text where !email.isEmpty else {return}
+        
+        registerRequest.registerWithUsername(username, FullName: fullName, Email: email, Password: password)
         
     }
     
