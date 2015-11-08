@@ -8,6 +8,8 @@
 
 import UIKit
 
+typealias ArrayDict = [[String:AnyObject]]
+
 class LoginViewController: UIViewController {
     
     @IBOutlet weak var usernameField: UITextField!

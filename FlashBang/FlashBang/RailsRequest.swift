@@ -25,9 +25,6 @@ class RailsRequest: NSObject {
     
     var userName: String?
     var user_id: Int?
-    var deck_id: Int?
-    var owner: String?
-    var title: String?
         
     
     func loginWithUsername(username: String, andPassword password: String) {
@@ -91,6 +88,7 @@ class RailsRequest: NSObject {
     func registerWithUsername(username: String, FullName fullname: String, Email email: String, Password password: String) {
         
         // have to make sure email is in text@text.text format!!!
+        // texting against string regex for email
         
         var info = RequestInfo()
         
@@ -115,12 +113,15 @@ class RailsRequest: NSObject {
                     
                     print(self.token)
                     
+                    // these are all optional
+                    
                 }
                 
                 if let myUserID = user["user_id"] as? Int {
                     
                     self.user_id = myUserID
                     print(self.user_id)
+                    
                 }
                 
                 
@@ -128,6 +129,7 @@ class RailsRequest: NSObject {
             }
             
         }
+        
         
     }
     
@@ -138,12 +140,22 @@ class RailsRequest: NSObject {
     
     
     
-    private let baseURL = "https://guarded-ridge-7410.herokuapp.com/"
+    private let baseURL = "https://guarded-ridge-7410.herokuapp.com"
     
     func requestWithInfo(info: RequestInfo, completion: (returnedInfo: AnyObject?) -> ()) {
         
-        let fullURLString = baseURL + info.endpoint
+        var fullURLString = baseURL + info.endpoint
         
+        // add query : number 3
+        
+        for (i,(k,v)) in info.query.enumerate() {
+            
+            if i == 0 { fullURLString += "?" } else { fullURLString += "&" }
+            
+            fullURLString += "\(k)=\(v)"
+            
+        }
+                
         guard let url = NSURL(string: fullURLString) else {return} // add run completion with fail
         
         let request = NSMutableURLRequest(URL: url)
@@ -160,21 +172,28 @@ class RailsRequest: NSObject {
         
         // add parameters to body
         
-        if let requestData = try? NSJSONSerialization.dataWithJSONObject(info.parameters, options: .PrettyPrinted) {
+        // number 4
+        if info.parameters.count > 0 {
             
-            if let jsonString = NSString(data: requestData, encoding: NSUTF8StringEncoding) {
+            if let requestData = try? NSJSONSerialization.dataWithJSONObject(info.parameters, options: .PrettyPrinted) {
                 
-                request.setValue("\(jsonString.length)", forHTTPHeaderField: "Content-Length")
                 
-                let postData = jsonString.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: true)
-                
-                request.HTTPBody = postData
+                if let jsonString = NSString(data: requestData, encoding: NSUTF8StringEncoding) {
+                    
+                    request.setValue("\(jsonString.length)", forHTTPHeaderField: "Content-Length")
+                    
+                    let postData = jsonString.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: true)
+                    
+                    request.HTTPBody = postData
+                    
+                }
                 
             }
             
         }
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
         
         // creates a task from request
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) -> Void in
@@ -219,5 +238,6 @@ struct RequestInfo {
     var endpoint: String!
     var method: MethodType = .GET
     var parameters: [String:AnyObject] = [:]
+    var query: [String:AnyObject] = [:] /// number 1
     
 }

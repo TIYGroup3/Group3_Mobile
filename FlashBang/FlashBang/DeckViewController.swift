@@ -10,14 +10,31 @@ import UIKit
 
 class DeckViewController: UIViewController {
 
+    var mineOwner: String?
+    var mineDeckTitle: String?
+    var mineDeck_ID: Int?
+    
+    var allOwner: String?
+    var allDeckTitle: String?
+    var allDeck_ID: Int?
+
+    var mineDecks: ArrayDict = []
+    var allDecks: ArrayDict = []
     
     @IBOutlet weak var deckTableView: UITableView!
     
-    
+    enum OwnerType: String {
+        
+        case All = "all", Mine = "mine"
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        deckTableView.dataSource = self
+        deckTableView.delegate = self
+  
         
 //        // if user logged in
 //        if USERLOGGEDIN != nil {
@@ -36,67 +53,105 @@ class DeckViewController: UIViewController {
 //            }
 //            
 //        }
-        enum owner: String {
-            
-            case all, mine
-            
-        }
+        
+        receiveDecks(.All)
+        receiveDecks(.Mine)
+        
+    }
+    
+    func receiveDecks(owner: OwnerType) {
+        
+        var info = RequestInfo()
+        
+        info.endpoint = "/decks"
+        info.method = .GET
+        info.query = [ /// number 2
+            "owner": owner.rawValue
+        ]
         
         
-        func receiveDecks(owner: owner) {
+        RailsRequest.session().requestWithInfo(info) { (returnedInfo) -> () in
             
-            var info = RequestInfo()
             
-            info.endpoint = "/decks"
-            info.method = .GET
-            info.parameters = [
+            if owner == .Mine {
                 
-                "owner": owner.rawValue
-                
-            ]
-            
-            
-            RailsRequest.session().requestWithInfo(info) { (returnedInfo) -> () in
-                
-                if let decks = returnedInfo?["decks"] as? [[String:AnyObject]] {
+                if let decks = returnedInfo?["decks"] as? ArrayDict {
                     
+                    //                var deckCount = 0
                     
-                    for deck in decks {
-                        
-                        
-                    }
+                    print(decks.count)
                     
-                    //                if let deckID = deck["deck_id"] as? Int {
-                    //
-                    //                    self.deck_id = deckID
-                    //
-                    //                }
-                    //
-                    //                if let owner = deck["deck_id"] as? String {
-                    //
-                    //                    self.owner = owner
-                    //
-                    //                }
-                    //
-                    //                if let userID = deck["deck_id"] as? Int {
-                    //
-                    //                    self.user_id = userID
-                    //                    
-                    //                }
-                    //                
-                    //                if let title = deck["deck_id"] as? String {
-                    //                    
-                    //                    self.title = title
-                    //                    
-                    //                }
+                    self.mineDecks = decks
+                    
+                    self.deckTableView.reloadData()
+                    
+//                    for deck in decks {
+//                        
+//                        if let id = deck["id"] as? Int {
+//                            
+//                            self.mineDeck_ID = id
+//                            
+//                            
+//                            
+//                        }
+//                        
+//                        if let title = deck["title"] as? String {
+//                            
+//                            self.mineDeckTitle = title
+//                            
+//                        }
+//                        
+//                        if let owner = deck["owner"] as? String {
+//                            
+//                            self.mineOwner = owner
+//                            
+//                        }
+//                        
+//                    }
                     
                 }
+                
+            } else {
+                
+                if let decks = returnedInfo?["decks"] as? ArrayDict {
+                    
+                    self.allDecks = decks
+                    
+                    print(decks.count)
+                    
+                    self.deckTableView.reloadData()
+                    
+//                    for deck in decks {
+//                        
+//                        if let id = deck["id"] as? Int {
+//                            
+//                            self.allDeck_ID = id
+//                            
+//                        }
+//                        
+//                        if let title = deck["title"] as? String {
+//                            
+//                            self.allDeckTitle = title
+//                            
+//                        }
+//                        
+//                        if let owner = deck["owner"] as? String {
+//                            
+//                            self.allOwner = owner
+//                            
+//                        }
+//                        
+//                    }
+                    
+                }
+
                 
             }
             
         }
-
+        
     }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -105,19 +160,51 @@ class DeckViewController: UIViewController {
     
     
     
+    // MARK: - Navigation
     
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        guard let cell = sender as? UITableViewCell else {return}
+        
+        guard let gameVC = segue.destinationViewController as? GamePlayViewController else {return}
+        
+        guard let indexPath = deckTableView.indexPathForCell(cell) else {return}
+        
+        if indexPath.section == 0 {
+            
+            var deckDictionary = mineDecks[indexPath.row]
+            gameVC.deckID = deckDictionary["id"] as? Int
+            
+        } else {
+            
+            var deckDictionary = allDecks[indexPath.row]
+            gameVC.deckID = deckDictionary["id"] as? Int
+            
+        }
+        
+    }
     
-    
-    
-    
-    
-    
-    
-
 }
-/*
+  
 
-extension DeckViewController: UITableViewDataSource {
+
+
+
+extension DeckViewController: UITableViewDataSource, UITableViewDelegate {
+
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        return 40
+        
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        return section == 0 ? "My Decks" : "All Decks"
+        
+    }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
@@ -127,8 +214,7 @@ extension DeckViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     
-        return 2
-//        return section == 0 ? array1.count : array2.count
+        return section == 0 ? mineDecks.count : allDecks.count
         
     }
     
@@ -136,34 +222,26 @@ extension DeckViewController: UITableViewDataSource {
         
         if indexPath.section == 0 {
             
-            // array1
+            let cell = tableView.dequeueReusableCellWithIdentifier("MineCell", forIndexPath: indexPath)
             
-            //        let cell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath)
-            //
-            //        cell.textLabel?.text = message["content"] as? String
-            //        cell.textLabel?.text = users[indexPath.row].username
-
+            let deck = mineDecks[indexPath.row]
             
-            //        return cell
+            cell.textLabel?.text = deck["title"] as? String
+            
+            return cell
             
         } else {
             
-            // array2
+            let cell = tableView.dequeueReusableCellWithIdentifier("AllCell", forIndexPath: indexPath)
             
-            //        let cell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath)
-            //
-            //        cell.textLabel?.text = message["content"] as? String
-            //        cell.textLabel?.text = users[indexPath.row].username
-
             
-            //        return cell
+            let deck = allDecks[indexPath.row]
+            
+            cell.textLabel?.text = deck["title"] as? String
+            
+            return cell
             
         }
-
-
     }
     
-
 }
-
-*/
