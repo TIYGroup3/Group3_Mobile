@@ -12,6 +12,7 @@ typealias ArrayDict = [[String:AnyObject]]
 
 class LoginViewController: UIViewController {
     
+    
     @IBOutlet weak var usernameField: UITextField!
     
     @IBOutlet weak var passwordField: UITextField!
@@ -32,7 +33,15 @@ class LoginViewController: UIViewController {
         
         usernameRequest.loginWithUsername(username, andPassword: password)
         
-        // token is optional!!!
+        // MARK: ???
+        
+        if RailsRequest.session().user_id != nil {
+            
+            let gameVC = self.storyboard!.instantiateViewControllerWithIdentifier("gameVC") as! UIViewController
+            self.presentViewController(gameVC, animated: true, completion: nil)
+            
+        }
+        
         
     }
     
@@ -46,6 +55,13 @@ class LoginViewController: UIViewController {
         guard let email = emailField.text where !email.isEmpty else {return}
         
         registerRequest.registerWithUsername(username, FullName: fullName, Email: email, Password: password)
+        
+        if RailsRequest.session().user_id != nil {
+            
+            let gameVC = self.storyboard!.instantiateViewControllerWithIdentifier("gameVC") as! UIViewController
+            self.presentViewController(gameVC, animated: true, completion: nil)
+            
+        }
         
     }
     

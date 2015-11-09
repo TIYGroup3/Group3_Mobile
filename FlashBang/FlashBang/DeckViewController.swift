@@ -28,6 +28,7 @@ class DeckViewController: UIViewController {
         case All = "all", Mine = "mine"
         
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,23 +37,23 @@ class DeckViewController: UIViewController {
         deckTableView.delegate = self
   
         
-//        // if user logged in
-//        if USERLOGGEDIN != nil {
-//            
-//            // logged in
-//            
-//        } else {
-//            
-//            // not logged in
-//            
-//            let storyboardLogin = UIStoryboard(name: "Login", bundle: nil)
-//            if let loginVC = storyboardLogin.instantiateInitialViewController() {
-//                
-//                presentViewController(loginVC, animated: true, completion: nil)
-//                
-//            }
-//            
-//        }
+        // if user logged in
+        if RailsRequest.session().user_id != nil {
+            
+            // logged in
+            
+        } else {
+            
+            // not logged in
+            
+            
+            let loginVC = self.storyboard!.instantiateViewControllerWithIdentifier("loginVC") as! UIViewController
+            self.presentViewController(loginVC, animated: true, completion: nil)
+            
+            
+            
+            
+        }
         
         receiveDecks(.All)
         receiveDecks(.Mine)
@@ -85,30 +86,6 @@ class DeckViewController: UIViewController {
                     
                     self.deckTableView.reloadData()
                     
-//                    for deck in decks {
-//                        
-//                        if let id = deck["id"] as? Int {
-//                            
-//                            self.mineDeck_ID = id
-//                            
-//                            
-//                            
-//                        }
-//                        
-//                        if let title = deck["title"] as? String {
-//                            
-//                            self.mineDeckTitle = title
-//                            
-//                        }
-//                        
-//                        if let owner = deck["owner"] as? String {
-//                            
-//                            self.mineOwner = owner
-//                            
-//                        }
-//                        
-//                    }
-                    
                 }
                 
             } else {
@@ -120,28 +97,6 @@ class DeckViewController: UIViewController {
                     print(decks.count)
                     
                     self.deckTableView.reloadData()
-                    
-//                    for deck in decks {
-//                        
-//                        if let id = deck["id"] as? Int {
-//                            
-//                            self.allDeck_ID = id
-//                            
-//                        }
-//                        
-//                        if let title = deck["title"] as? String {
-//                            
-//                            self.allDeckTitle = title
-//                            
-//                        }
-//                        
-//                        if let owner = deck["owner"] as? String {
-//                            
-//                            self.allOwner = owner
-//                            
-//                        }
-//                        
-//                    }
                     
                 }
 
@@ -193,10 +148,15 @@ class DeckViewController: UIViewController {
 
 extension DeckViewController: UITableViewDataSource, UITableViewDelegate {
 
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        return 40
+        
+    }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        return 40
+        return 50
         
     }
     
@@ -227,7 +187,7 @@ extension DeckViewController: UITableViewDataSource, UITableViewDelegate {
             let deck = mineDecks[indexPath.row]
             
             cell.textLabel?.text = deck["title"] as? String
-            
+                        
             return cell
             
         } else {

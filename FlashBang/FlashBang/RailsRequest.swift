@@ -52,6 +52,7 @@ class RailsRequest: NSObject {
                     
                     print(self.token)
                     
+                    
                 }
                 
                 if let myUsername = user["username"] as? String {
@@ -69,6 +70,8 @@ class RailsRequest: NSObject {
                     print(self.user_id)
                     
                 }
+                
+                
                 
             }
             

@@ -62,9 +62,9 @@
 			children = (
 				1446177F1BEA93AD00132399 /* AppDelegate.swift */,
 				144617831BEA93AD00132399 /* Main.storyboard */,
+				144617911BEA940900132399 /* LoginViewController.swift */,
 				144617951BEA99F000132399 /* DeckViewController.swift */,
 				144617971BEA9B0300132399 /* GamePlayViewController.swift */,
-				144617911BEA940900132399 /* LoginViewController.swift */,
 				140AAAC31BEBD990009B3FE0 /* RailsRequest.swift */,
 				144617861BEA93AD00132399 /* Assets.xcassets */,
 				144617881BEA93AD00132399 /* LaunchScreen.storyboard */,
