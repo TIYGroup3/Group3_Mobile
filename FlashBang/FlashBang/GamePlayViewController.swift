@@ -16,8 +16,11 @@ class GamePlayViewController: UIViewController {
     var allCards: ArrayDict = []
     
     var cardID: Int?
+    
+    var currentCard: String?
 
-    @IBOutlet weak var ImageView: UIImageView!
+    
+    @IBOutlet weak var correctOrIncorrectView: UIView!
     
     @IBOutlet weak var questionTextField: UITextField!
     @IBOutlet weak var answerTextField: UITextField!
@@ -43,41 +46,48 @@ class GamePlayViewController: UIViewController {
     @IBOutlet weak var enterOutlet: UIButton!
     @IBAction func enterAnswer(sender: AnyObject) {
         
-        if answerTextField.text?.lowercaseString == questionTextField.text?.lowercaseString {
-            
-            timer.invalidate()
-            
-            var timeStamp = counter
-            
-            if let cardID = self.cardID {
+        print(answerTextField.text)
+        print(currentCard)
+            if answerTextField.text?.lowercaseString == currentCard!.lowercaseString {
                 
-                postUserGuesses(cardID, duration: timeStamp, correct: true)
+                timer.invalidate()
                 
-                print(timeStamp)
-                print(cardID)
-            }
+                var timeStamp = counter
+                
+                if let cardID = self.cardID {
+                    
+                    postUserGuesses(cardID, duration: timeStamp, correct: true)
+                    
+                    print(timeStamp)
+                    print(cardID)
+                }
+                
+                correctOrIncorrectView.backgroundColor = UIColor.greenColor()
+                
+                
+                changeCards()
+                
+                counter = 0
+                
+                timerLabel.text = String(counter)
+                
+                timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "countUp", userInfo: nil, repeats: true)
+                
+                answerTextField.text = ""
+                
+                
+                if allCards.isEmpty == true {
+                    
+                    timer.invalidate()
+                    counter = 0
+                    timerLabel.text = String(counter)
+                    
+                }
             
             
-            
-            // MARK: ????
-            
-            changeCards()
-            
-            counter = 0
-            
-            timerLabel.text = String(counter)
-            
-            timer.fire()
-            
-//            while 1 == 1 {
-//                
-//                countUp()
-//                
-//            }
-//            
         } else {
             
-            
+    
             
             timer.invalidate()
             
@@ -91,22 +101,30 @@ class GamePlayViewController: UIViewController {
                 print(cardID)
             }
             
-            ImageView.image = UIImage(named: "Bang")
-            ImageView.startAnimating()
+//            ImageView.image = UIImage(named: "Bang")
+
+            correctOrIncorrectView.backgroundColor = UIColor.redColor()
+            
+            
             changeCards()
             
             counter = 0
             timerLabel.text = String(counter)
             
-            timer.fire()
+            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "countUp", userInfo: nil, repeats: true)
             
-//            while 1 == 1 {
-//                
-//                countUp()
-//                
-//            }
+            answerTextField.text = ""
             
+            if allCards.isEmpty == true {
+                
+                timer.invalidate()
+                counter = 0
+                timerLabel.text = String(counter)
+                
+            }
             
+            print(allCards)
+
         }
         
     }
@@ -115,13 +133,14 @@ class GamePlayViewController: UIViewController {
     
     @IBAction func addStar(sender: AnyObject) {
         
-        // MARK: ????
         
         print(self.deckID)
+        
         if let deckID = self.deckID {
             
-            addStar(deckID)
+            addStars(deckID)
             starButton.alpha = 0
+            getStars(deckID)
             
         }
         
@@ -147,7 +166,6 @@ class GamePlayViewController: UIViewController {
         questionTextField.allowsEditingTextAttributes = false
         enterOutlet.enabled = false
 
-        // MARK: ????
         numberOfCardsLeft.text = String(self.allCards.count)
         
         
@@ -155,7 +173,7 @@ class GamePlayViewController: UIViewController {
             
             receiveCardsFromDeck(deckID)
             getStars(deckID)
-        
+            
         }
         
   
@@ -179,14 +197,21 @@ class GamePlayViewController: UIViewController {
         
         if allCards.isEmpty == true {
             
+            timer.invalidate()
+            counter = 0
+            timerLabel.text = String(counter)
             enterOutlet.enabled = false
+            print("done")
             
         } else {
-        
+            
         questionTextField.text = allCards[x]["front"] as? String
         self.cardID = allCards[x]["id"] as? Int
         self.allCards.removeAtIndex(x)
-        
+        numberOfCardsLeft.text = String(self.allCards.count)
+            
+        self.currentCard = allCards[x]["back"] as? String
+
         }
         
     }
@@ -271,7 +296,7 @@ class GamePlayViewController: UIViewController {
         var info = RequestInfo()
         var stringDeckID = String(deckID)
         
-        info.endpoint = "/decks/\(stringDeckID)/cards"
+        info.endpoint = "/decks/\(stringDeckID)/stars"
         info.method = .POST
         
         RailsRequest.session().requestWithInfo(info) { (returnedInfo) -> () in
@@ -283,7 +308,6 @@ class GamePlayViewController: UIViewController {
         }
         
     }
-    
 
 }
 

@@ -22,8 +22,6 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailField: UITextField!
     
     
-    
-    
     @IBAction func loginButton(sender: AnyObject) {
         
         let usernameRequest = RailsRequest.session()
@@ -31,17 +29,20 @@ class LoginViewController: UIViewController {
         guard let username = usernameField.text where !username.isEmpty else {return}
         guard let password = passwordField.text where !password.isEmpty else {return}
         
-        usernameRequest.loginWithUsername(username, andPassword: password)
+        usernameRequest.loginWithUsername(username, andPassword: password, success: { didLogin in
         
-        // MARK: ???
+            if didLogin {
+                
+                let gameVC = self.storyboard!.instantiateViewControllerWithIdentifier("gameVC") as! UIViewController
+                self.presentViewController(gameVC, animated: true, completion: nil)
+                
+            } else {
+                
+                // throw an alert error that login failed
+                
+            }
         
-        if RailsRequest.session().user_id != nil {
-            
-            let gameVC = self.storyboard!.instantiateViewControllerWithIdentifier("gameVC") as! UIViewController
-            self.presentViewController(gameVC, animated: true, completion: nil)
-            
-        }
-        
+        })
         
     }
     
@@ -54,23 +55,22 @@ class LoginViewController: UIViewController {
         guard let fullName = fullNameField.text where !fullName.isEmpty else {return}
         guard let email = emailField.text where !email.isEmpty else {return}
         
-        registerRequest.registerWithUsername(username, FullName: fullName, Email: email, Password: password)
-        
-        if RailsRequest.session().user_id != nil {
+        registerRequest.registerWithUsername(username, FullName: fullName, Email: email, Password: password, success: { didLogin in
             
-            let gameVC = self.storyboard!.instantiateViewControllerWithIdentifier("gameVC") as! UIViewController
-            self.presentViewController(gameVC, animated: true, completion: nil)
+            if didLogin {
+                
+                let gameVC = self.storyboard!.instantiateViewControllerWithIdentifier("gameVC")
+                self.presentViewController(gameVC, animated: true, completion: nil)
+                
+            } else {
+                
+                // throw an alert error that login failed
+                
+            }
             
-        }
-        
-    }
-    
-
-
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+        })
         
     }
     
 }
+

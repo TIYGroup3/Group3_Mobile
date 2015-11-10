@@ -27,7 +27,7 @@ class RailsRequest: NSObject {
     var user_id: Int?
         
     
-    func loginWithUsername(username: String, andPassword password: String) {
+    func loginWithUsername(username: String, andPassword password: String, success: (Bool) -> ()) {
         
         var info = RequestInfo()
         
@@ -46,14 +46,6 @@ class RailsRequest: NSObject {
             
             if let user = returnedInfo?["user"] as? [String:AnyObject] {
                 
-                if let key = user["access_key"] as? String {
-                    
-                    self.token = key
-                    
-                    print(self.token)
-                    
-                    
-                }
                 
                 if let myUsername = user["username"] as? String {
                     
@@ -68,6 +60,21 @@ class RailsRequest: NSObject {
                     self.user_id = myUserID
                     
                     print(self.user_id)
+                    
+                }
+                
+                
+                if let key = user["access_key"] as? String {
+                    
+                    self.token = key
+                    
+                    print(self.token)
+                    
+                    success(true)
+                    
+                } else {
+                    
+                    success(false)
                     
                 }
                 
@@ -88,7 +95,7 @@ class RailsRequest: NSObject {
 
     }
     
-    func registerWithUsername(username: String, FullName fullname: String, Email email: String, Password password: String) {
+    func registerWithUsername(username: String, FullName fullname: String, Email email: String, Password password: String, success: (Bool) -> ()) {
         
         // have to make sure email is in text@text.text format!!!
         // texting against string regex for email
@@ -110,15 +117,8 @@ class RailsRequest: NSObject {
             
             if let user = returnedInfo?["user"] as? [String:AnyObject] {
                 
-                if let key = user["access_key"] as? String {
-                    
-                    self.token = key
-                    
-                    print(self.token)
-                    
-                    // these are all optional
-                    
-                }
+                print("no")
+                
                 
                 if let myUserID = user["user_id"] as? Int {
                     
@@ -127,6 +127,20 @@ class RailsRequest: NSObject {
                     
                 }
                 
+                if let key = user["access_key"] as? String {
+                    
+                    self.token = key
+                    
+                    print(self.token)
+                    
+                    success(true)
+                    
+                } else {
+                    
+                    success(false)
+                    print("no")
+                    
+                }
                 
                 
             }
